@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Chat WebSocket</title>
+</head>
+<body>
+  <h2>💬 Chat real-time</h2>
+  <input id="name" placeholder="Nama Anda" />
+  <br><br>
+  <textarea id="chat" rows="10" cols="50" readonly></textarea><br>
+  <input id="msg" placeholder="Tulis pesan..." />
+  <button onclick="kirim()">Kirim</button>
+
+  <script>
+    const ws = new WebSocket(`ws://${location.host}`);
+    const chat = document.getElementById("chat");
+
+    ws.onmessage = event => {
+      chat.value += event.data + '\n';
+    };
+
+    function kirim() {
+      const name = document.getElementById("name").value;
+      const msg = document.getElementById("msg").value;
+      ws.send(`${name}: ${msg}`);
+      document.getElementById("msg").value = '';
+    }
+  </script>
+</body>
+</html>
